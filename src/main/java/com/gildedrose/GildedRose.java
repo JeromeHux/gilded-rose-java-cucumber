@@ -14,9 +14,11 @@ class GildedRose {
 
     public void updateQuality() {
         for (final Item item : items) {
+
             if (isSulfurasHandOfRagnaros(item)) {
                 continue;
             }
+
             if (isAgedBrie(item) || isBackStagePasses(item)) {
                 if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
                     increaseQuality(item);
@@ -30,28 +32,36 @@ class GildedRose {
                     }
                 }
             } else {
-                if (item.quality > 0) {
-                    decreaseQuality(item);
-                }
+                decreaseQualityIfNotUnderLimit(item);
             }
+
             decreaseSellIn(item);
 
-            if (item.sellIn < 0) {
+            if (isUnderSellInLimit(item)) {
                 if (isAgedBrie(item)) {
-                    if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
-                        increaseQuality(item);
-                    }
+                    increaseQualityIfNotAboveNonLegendaryLimit(item);
+                } else if (isBackStagePasses(item)) {
+                    item.quality = 0;
                 } else {
-                    if (isBackStagePasses(item)) {
-                        item.quality = 0;
-                    } else {
-                        if (item.quality > 0) {
-                            decreaseQuality(item);
-
-                        }
-                    }
+                    decreaseQualityIfNotUnderLimit(item);
                 }
             }
+        }
+    }
+
+    private boolean isUnderSellInLimit(final Item item) {
+        return item.sellIn < 0;
+    }
+
+    private void increaseQualityIfNotAboveNonLegendaryLimit(final Item item) {
+        if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
+            increaseQuality(item);
+        }
+    }
+
+    private void decreaseQualityIfNotUnderLimit(final Item item) {
+        if (item.quality > 0) {
+            decreaseQuality(item);
         }
     }
 
