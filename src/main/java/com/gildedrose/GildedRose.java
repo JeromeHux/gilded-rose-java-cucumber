@@ -29,18 +29,17 @@ class GildedRose {
                 if (item.sellIn < 5) {
                     increaseQualityIfNotAboveNonLegendaryLimit(item);
                 }
+                if (isUnderSellInLimit(item)) {
+                    item.quality = 0;
+                }
             } else if (isAgedBrie(item)) {
                 increaseQualityIfNotAboveNonLegendaryLimit(item);
+                if (isUnderSellInLimit(item)) {
+                    increaseQualityIfNotAboveNonLegendaryLimit(item);
+                }
             } else {
                 decreaseQualityIfNotUnderLimit(item);
-            }
-
-            if (isUnderSellInLimit(item)) {
-                if (isAgedBrie(item)) {
-                    increaseQualityIfNotAboveNonLegendaryLimit(item);
-                } else if (isBackStagePasses(item)) {
-                    item.quality = 0;
-                } else {
+                if (isUnderSellInLimit(item)) {
                     decreaseQualityIfNotUnderLimit(item);
                 }
             }
