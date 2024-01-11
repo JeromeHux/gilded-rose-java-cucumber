@@ -14,7 +14,7 @@ public class GildedRoseTest {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
-        TexttestFixture.runGoldenMaster(new String[0], printStream);
+        TexttestFixture.runGoldenMaster(new String[]{"100"}, printStream);
         final String actualOutput = byteArrayOutputStream.toString();
 
         final String expectedOutput = expectedOutput();
