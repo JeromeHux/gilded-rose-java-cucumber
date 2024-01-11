@@ -16,9 +16,8 @@ class GildedRose {
 
         for (final Item item : items) {
             if (isSulfurasHandOfRagnaros(item)) {
-                continue;
-            }
-            if (isBackStagePasses(item)) {
+                //Do nothing
+            } else if (isBackStagePasses(item)) {
                 updateBackStagePassesQuality(item);
             } else if (isAgedBrie(item)) {
                 updateAgeBrieQuality(item);
