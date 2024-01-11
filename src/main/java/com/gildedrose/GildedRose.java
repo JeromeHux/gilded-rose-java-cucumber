@@ -13,18 +13,20 @@ class GildedRose {
     }
 
     public void updateQuality() {
+
         for (final Item item : items) {
 
             if (isSulfurasHandOfRagnaros(item)) {
                 continue;
             }
+            decreaseSellIn(item);
 
             if (isBackStagePasses(item)) {
                 increaseQualityIfNotAboveNonLegendaryLimit(item);
-                if (item.sellIn < 11) {
+                if (item.sellIn < 10) {
                     increaseQualityIfNotAboveNonLegendaryLimit(item);
                 }
-                if (item.sellIn < 6) {
+                if (item.sellIn < 5) {
                     increaseQualityIfNotAboveNonLegendaryLimit(item);
                 }
             } else if (isAgedBrie(item)) {
@@ -32,8 +34,6 @@ class GildedRose {
             } else {
                 decreaseQualityIfNotUnderLimit(item);
             }
-
-            decreaseSellIn(item);
 
             if (isUnderSellInLimit(item)) {
                 if (isAgedBrie(item)) {
