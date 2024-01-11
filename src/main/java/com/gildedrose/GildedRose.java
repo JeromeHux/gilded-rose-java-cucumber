@@ -17,40 +17,38 @@ class GildedRose {
             if (isSulfurasHandOfRagnaros(item)) {
                 continue;
             }
-            if (!isAgedBrie(item) && !isBackStagePasses(item)) {
-                if (item.quality > 0) {
-                    decreaseQuality(item);
-                }
-            } else {
+            if (isAgedBrie(item) || isBackStagePasses(item)) {
                 if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
                     increaseQuality(item);
                     if (isBackStagePasses(item)) {
                         if (item.sellIn < 11 && (item.quality < NON_LEGENDARY_LIMIT_QUALITY)) {
                             increaseQuality(item);
-
                         }
                         if (item.sellIn < 6 && (item.quality < NON_LEGENDARY_LIMIT_QUALITY)) {
                             increaseQuality(item);
                         }
                     }
                 }
+            } else {
+                if (item.quality > 0) {
+                    decreaseQuality(item);
+                }
             }
-
             decreaseSellIn(item);
 
             if (item.sellIn < 0) {
-                if (!isAgedBrie(item)) {
-                    if (!isBackStagePasses(item)) {
+                if (isAgedBrie(item)) {
+                    if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
+                        increaseQuality(item);
+                    }
+                } else {
+                    if (isBackStagePasses(item)) {
+                        item.quality = 0;
+                    } else {
                         if (item.quality > 0) {
                             decreaseQuality(item);
 
                         }
-                    } else {
-                        item.quality = 0;
-                    }
-                } else {
-                    if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
-                        increaseQuality(item);
                     }
                 }
             }
