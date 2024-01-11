@@ -20,10 +20,10 @@ class GildedRose {
             }
 
             if (isAgedBrie(item) || isBackStagePasses(item)) {
-                if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
+                if (isUnderLegendaryLimitQuality(item)) {
                     increaseQuality(item);
                     if (isBackStagePasses(item)) {
-                        if (item.sellIn < 11 && (item.quality < NON_LEGENDARY_LIMIT_QUALITY)) {
+                        if (item.sellIn < 11 && isUnderLegendaryLimitQuality(item)) {
                             increaseQuality(item);
                         }
                         if (item.sellIn < 6 && (item.quality < NON_LEGENDARY_LIMIT_QUALITY)) {
@@ -49,12 +49,16 @@ class GildedRose {
         }
     }
 
+    private static boolean isUnderLegendaryLimitQuality(final Item item) {
+        return item.quality < NON_LEGENDARY_LIMIT_QUALITY;
+    }
+
     private boolean isUnderSellInLimit(final Item item) {
         return item.sellIn < 0;
     }
 
     private void increaseQualityIfNotAboveNonLegendaryLimit(final Item item) {
-        if (item.quality < NON_LEGENDARY_LIMIT_QUALITY) {
+        if (isUnderLegendaryLimitQuality(item)) {
             increaseQuality(item);
         }
     }
