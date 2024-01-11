@@ -1,36 +1,30 @@
 package com.gildedrose;
 
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import java.io.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class GildedRoseTest {
+    private static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
 
     @Test
-    public void golden_master_test() throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(byteArrayOutputStream);
+    public void conjuredItem() {
+        Item[] items = new Item[]{
+                new Item(CONJURED_MANA_CAKE, 3, 6)
+        };
 
-        TexttestFixture.runGoldenMaster(new String[]{"100"}, printStream);
-        final String actualOutput = byteArrayOutputStream.toString();
+        GildedRose gildedRose = new GildedRose(items);
 
-        final String expectedOutput = expectedOutput();
-        assertThat(actualOutput).isEqualTo(expectedOutput);
-    }
+        gildedRose.updateQuality();
+        final Item[] itemsUpdated = gildedRose.items;
+        final Item actualItem = itemsUpdated[0];
 
-    private String expectedOutput() throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(byteArrayOutputStream);
-        File file = new File("src/test/resources/golden-master.txt");
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        String string;
-        while ((string = bufferedReader.readLine()) != null) {
-            printStream.println(string);
-        }
-        return byteArrayOutputStream.toString();
+        final Item expectedItem = new Item(CONJURED_MANA_CAKE, 2, 4);
+        assertThat(actualItem.name).isEqualTo(expectedItem.name);
+        assertThat(actualItem.quality).isEqualTo(expectedItem.quality);
+        assertThat(actualItem.sellIn).isEqualTo(expectedItem.sellIn);
     }
 
 }

@@ -21,6 +21,8 @@ class GildedRose {
                 updateBackStagePassesQuality(item);
             } else if (isAgedBrie(item)) {
                 updateAgeBrieQuality(item);
+            } else if (item.name.contains("Conjured")) {
+                updateConjuredItemQuality(item);
             } else {
                 updateRegularItemQuality(item);
             }
@@ -29,6 +31,15 @@ class GildedRose {
 
     private void updateRegularItemQuality(final Item item) {
         decreaseSellIn(item);
+        decreaseQualityIfNotUnderLimit(item);
+        if (isUnderSellInLimit(item)) {
+            decreaseQualityIfNotUnderLimit(item);
+        }
+    }
+
+    private void updateConjuredItemQuality(final Item item) {
+        decreaseSellIn(item);
+        decreaseQualityIfNotUnderLimit(item);
         decreaseQualityIfNotUnderLimit(item);
         if (isUnderSellInLimit(item)) {
             decreaseQualityIfNotUnderLimit(item);
