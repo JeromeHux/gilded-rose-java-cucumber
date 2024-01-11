@@ -15,34 +15,46 @@ class GildedRose {
     public void updateQuality() {
 
         for (final Item item : items) {
-
             if (isSulfurasHandOfRagnaros(item)) {
                 continue;
             }
-            decreaseSellIn(item);
-
             if (isBackStagePasses(item)) {
-                increaseQualityIfNotAboveNonLegendaryLimit(item);
-                if (item.sellIn < 10) {
-                    increaseQualityIfNotAboveNonLegendaryLimit(item);
-                }
-                if (item.sellIn < 5) {
-                    increaseQualityIfNotAboveNonLegendaryLimit(item);
-                }
-                if (isUnderSellInLimit(item)) {
-                    item.quality = 0;
-                }
+                updateBackStagePassesQuality(item);
             } else if (isAgedBrie(item)) {
-                increaseQualityIfNotAboveNonLegendaryLimit(item);
-                if (isUnderSellInLimit(item)) {
-                    increaseQualityIfNotAboveNonLegendaryLimit(item);
-                }
+                updateAgeBrieQuality(item);
             } else {
-                decreaseQualityIfNotUnderLimit(item);
-                if (isUnderSellInLimit(item)) {
-                    decreaseQualityIfNotUnderLimit(item);
-                }
+                updateRegularItemQuality(item);
             }
+        }
+    }
+
+    private void updateRegularItemQuality(final Item item) {
+        decreaseSellIn(item);
+        decreaseQualityIfNotUnderLimit(item);
+        if (isUnderSellInLimit(item)) {
+            decreaseQualityIfNotUnderLimit(item);
+        }
+    }
+
+    private void updateBackStagePassesQuality(final Item item) {
+        decreaseSellIn(item);
+        increaseQualityIfNotAboveNonLegendaryLimit(item);
+        if (item.sellIn < 10) {
+            increaseQualityIfNotAboveNonLegendaryLimit(item);
+        }
+        if (item.sellIn < 5) {
+            increaseQualityIfNotAboveNonLegendaryLimit(item);
+        }
+        if (isUnderSellInLimit(item)) {
+            item.quality = 0;
+        }
+    }
+
+    private void updateAgeBrieQuality(final Item item) {
+        decreaseSellIn(item);
+        increaseQualityIfNotAboveNonLegendaryLimit(item);
+        if (isUnderSellInLimit(item)) {
+            increaseQualityIfNotAboveNonLegendaryLimit(item);
         }
     }
 
